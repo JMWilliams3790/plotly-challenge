@@ -53,8 +53,10 @@ function drawChart(){
     y: samples[0].otu_ids,
     mode: "markers",
     marker: {
-      size: samples[0].sample_values
+      size: samples[0].sample_values,
+      color: samples[0].otu_ids
     },
+    text: samples[0].otu_labels
   }
   var bubbleData = [trace2];
 
@@ -106,6 +108,7 @@ function optionChanged(value){
   //restyle bar chart
   updateBarChart(value);
   //restyle bubble chart
+  updateBubbleChart(value);
 }
 
 function updateMetadata(value){
@@ -139,4 +142,16 @@ function updateBarChart(value){
 
   Plotly.restyle("bar", "text", [text]);
 };
+
 //restyle. there will be 5
+function updateBubbleChart(value){
+  var sample = samples.filter((d) => d.id === value)[0];
+
+  var X = sample.sample_values;
+
+  Plotly.restyle("bubble", "x", [X]);
+
+  var Y = sample.otu_ids;
+
+  Plotly.restyle("bubble", "y", [Y]);
+}
