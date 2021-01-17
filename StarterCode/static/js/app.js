@@ -154,4 +154,16 @@ function updateBubbleChart(value){
   var Y = sample.otu_ids;
 
   Plotly.restyle("bubble", "y", [Y]);
+
+  var text = sample.otu_labels;
+
+  Plotly.restyle("bubble", "text", [text]);
+
+  var size = sample.sample_values;
+
+  Plotly.restyle("bubble", "marker.size", [size]);
+
+  var color = sample.otu_ids;
+
+  Plotly.restyle("bubble", "marker.color", [color]);
 }
