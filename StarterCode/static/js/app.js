@@ -22,9 +22,8 @@ function readData(read) {
 
 //draw first Bar Chart
 function drawChart(){
-  // console.log(names)
-  // console.log(metadata)
-  console.log(samples)
+
+  
   var trace1 = {
     x: samples[0].sample_values.slice(0, 10).reverse(),
     y: samples[0].otu_ids.slice(0, 10).reverse().map(function (d){
@@ -35,7 +34,7 @@ function drawChart(){
     text: samples[0].otu_labels.slice(0, 10).reverse()
   };
 
-  console.log(trace1);
+  
   // Create the data array for the plot
   var barData = [trace1];
 
