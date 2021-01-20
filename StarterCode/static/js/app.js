@@ -47,13 +47,14 @@ function drawChart(){
   // Plot the chart to a div tag with id "plot"
   Plotly.newPlot("bar", barData, layout);
 
-
+  
   var trace2 = {
-    x: samples[0].sample_values,
-    y: samples[0].otu_ids,
+    x: samples[0].otu_ids,
+    y: samples[0].sample_values,
     mode: "markers",
     marker: {
       size: samples[0].sample_values,
+      colorscale: 'Blues',
       color: samples[0].otu_ids
     },
     text: samples[0].otu_labels
@@ -65,11 +66,40 @@ function drawChart(){
     showlegend: false,
   };
   Plotly.newPlot("bubble", bubbleData, bubbleLayout);
+  var data = [
+    {
+      type: "indicator",
+      mode: "gauge+number+delta",
+      value: metadata[0].wfreq,
+      title: { text: "Bellybutton Scrubs per Week", font: { size: 24 } },
+      gauge: {
+        axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
+        bar: { color: "darkblue" },
+        bgcolor: "white",
+        borderwidth: 2,
+        bordercolor: "gray",
+        steps: [
+          { range: [0, 250], color: "cyan" },
+          { range: [250, 400], color: "royalblue" }
+        ],
+        threshold: {
+          line: { color: "red", width: 4 },
+          thickness: 0.75,
+        }
+      }
+    }
+  ];
+  
+  var layout = {
+    width: 500,
+    height: 400,
+    margin: { t: 25, r: 25, l: 25, b: 25 },
+    paper_bgcolor: "lavender",
+    font: { color: "darkblue", family: "Arial" }
+  };
+  
+  Plotly.newPlot('gauge', data, layout);
 }
-
-//draw first bubble
-
-
 
 
 //Populate page based on initial state
@@ -109,6 +139,8 @@ function optionChanged(value){
   updateBarChart(value);
   //restyle bubble chart
   updateBubbleChart(value);
+  //restyle guagaugege
+  updateGauge(value);
 }
 
 function updateMetadata(value){
@@ -149,11 +181,11 @@ function updateBubbleChart(value){
 
   var X = sample.sample_values;
 
-  Plotly.restyle("bubble", "x", [X]);
+  Plotly.restyle("bubble", "y", [X]);
 
   var Y = sample.otu_ids;
 
-  Plotly.restyle("bubble", "y", [Y]);
+  Plotly.restyle("bubble", "x", [Y]);
 
   var text = sample.otu_labels;
 
@@ -166,4 +198,11 @@ function updateBubbleChart(value){
   var color = sample.otu_ids;
 
   Plotly.restyle("bubble", "marker.color", [color]);
+}
+
+function updateGauge(value){
+  var wfreq = metadata.filter((d) => d.id === +value)[0];
+  var value = wfreq.wfreq;
+
+  Plotly.restyle("gauge", "value", [value]);
 }
