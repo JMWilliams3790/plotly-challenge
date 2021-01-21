@@ -61,7 +61,7 @@ function drawChart(){
   var bubbleData = [trace2];
 
   var bubbleLayout = {
-    title: "Belly Button Bideiversity Bubble Chart",
+    title: "Belly Button Biodeiversity Bubble Chart",
     showlegend: false,
   };
   Plotly.newPlot("bubble", bubbleData, bubbleLayout);
